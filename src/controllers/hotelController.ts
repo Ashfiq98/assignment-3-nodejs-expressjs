@@ -1,12 +1,41 @@
-import { Request, Response } from 'express';
-import { getHotels, saveHotels } from '../models/hotelModel';
-import { filePath ,updateHotelById,addHotelToData} from '../models/hotelModel';
-
-import { v4 as uuidv4 } from 'uuid';  // Import uuid
-import slugify from 'slugify';  // Import slugify
-// import { addHotelToData } from './hotelModel';  // Import the model function to add hotel data
+import { NextFunction, Request, Response,RequestHandler } from 'express';
+import { body, validationResult } from 'express-validator';
+import fs from 'fs-extra';
+import slugify from 'slugify'; // Import slugify
+import { v4 as uuidv4 } from 'uuid'; // Import uuid
+import { addHotelToData, filePath, getHotelById, Hotel, updateHotelById, updateHotelImages } from '../models/hotelModel';
 
 // Controller to add a new hotel
+export const validateAddHotel: RequestHandler[] = [
+  // Validate title field
+  body('title')
+    .notEmpty().withMessage('Title is required')
+    .isString().withMessage('Title must be a string'),
+
+  // Validate description field
+  body('description')
+    .notEmpty().withMessage('Description is required')
+    .isString().withMessage('Description must be a string'),
+
+  // Optionally validate other fields, like location or rating
+  body('location')
+    .optional()
+    .isString().withMessage('Location must be a string'),
+
+  body('rating')
+    .optional()
+    .isFloat({ min: 0, max: 5 }).withMessage('Rating must be a number between 0 and 5'),
+
+  // Handle validation errors
+  (req: Request, res: Response, next: NextFunction): void => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(400).json({ error: errors.array()[0].msg });
+    } else {
+      next();
+    }
+  }
+];
 export const addHotel = async (req: Request, res: Response): Promise<void> => {
   try {
     const hotelData = req.body;  // Get the hotel data from the request body
@@ -42,22 +71,31 @@ export const addHotel = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-// adding image
+// adding image with validation
 
-import { getHotelById, updateHotelImages } from '../models/hotelModel';
+
+
+export const validateUploadHotelImages = [
+  body('hotelId')
+    .notEmpty()
+    .withMessage('hotelId is required')
+    .isString()
+    .withMessage('hotelId must be a string'),
+];
 
 export const uploadHotelImages = async (req: Request, res: Response): Promise<void> => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(400).json({ errors: errors.array()[0].msg });
+    return;  // Ensure no value is returned
+  }
+
   try {
     const hotelId = req.body.hotelId;
 
-    if (!hotelId) {
-      res.status(400).send('No hotelId provided');
-      return;
-    }
-
     if (!req.files || (req.files as Express.Multer.File[]).length === 0) {
       res.status(400).send('No files uploaded');
-      return;
+      return;  // Ensure no value is returned
     }
 
     const files = Array.isArray(req.files) ? req.files : [req.files];
@@ -66,7 +104,7 @@ export const uploadHotelImages = async (req: Request, res: Response): Promise<vo
     const hotel = await getHotelById(hotelId);
     if (!hotel) {
       res.status(404).send('Hotel not found');
-      return;
+      return;  // Ensure no value is returned
     }
 
     await updateHotelImages(hotelId, imageUrls);
@@ -81,11 +119,39 @@ export const uploadHotelImages = async (req: Request, res: Response): Promise<vo
   }
 };
 
+// without validation
+// https://ideone.com/7guSgp
+
 // room image
-// import { Request, Response } from 'express';
-import fs from 'fs-extra';
-import path from 'path';
-import { Hotel } from '../models/hotelModel';
+
+
+// Validation middleware for uploadRoomImages
+export const validateUploadRoomImages: RequestHandler[] = [
+  // Validate hotelId
+  body('hotelId').notEmpty().withMessage('Hotel ID is required'),
+
+  // Validate roomSlug
+  body('roomSlug').notEmpty().withMessage('Room Slug is required'),
+
+  // Check if files are uploaded (multer will handle this, but let's validate it)
+  (req: Request, res: Response, next: NextFunction): void => {
+    if (!req.files || (Array.isArray(req.files) && req.files.length === 0)) {
+      res.status(400).json({ error: 'No files uploaded' });
+    } else {
+      next();
+    }
+  },
+
+  // Handle validation errors
+  (req: Request, res: Response, next: NextFunction): void => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(400).json({ error: errors.array()[0].msg });
+    } else {
+      next();
+    }
+  }
+];
 
 export const uploadRoomImages = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -93,10 +159,10 @@ export const uploadRoomImages = async (req: Request, res: Response): Promise<voi
     const roomSlug = req.body.roomSlug;  // Get roomSlug from the form data
 
     if (!hotelId || !roomSlug) {
-      res.status(400).send('No hotelId or roomSlug provided');
+      res.status(400).send('Missing hotelId or roomSlug in key of form');
       return;
     }
-
+  
     if (!req.files || req.files.length === 0) {
       res.status(400).send('No files uploaded');
       return;
@@ -116,7 +182,7 @@ export const uploadRoomImages = async (req: Request, res: Response): Promise<voi
     const room = hotel.rooms?.find((r: any) => r.roomSlug === roomSlug);
 
     if (!room) {
-      res.status(404).send('Room not found');
+      res.status(404).send('Room not found! Please, check the hotelId or roomSlug');
       return;
     }
 

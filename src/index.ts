@@ -1,10 +1,7 @@
-import bodyParser from 'body-parser';
+// import bodyParser from 'body-parser';
 import bodyParser from 'body-parser';
 import express, { Request, Response } from 'express';
-import fs from 'fs-extra'; // For handling files
-import multer, { FileFilterCallback } from 'multer';
 import path from 'path'; // For file path
-import { Hotel } from './models/hotelModel';
 import hotelRoutes from './routes/hotelRoutes';
 
 
