@@ -26,15 +26,20 @@ Follow these steps to set up and run the project locally:
 
 1. Clone the repository:
    ```bash
-  * git clone https://github.com/Ashfiq98/assignment-3-nodejs-expressjs.git
-
+     git clone https://github.com/Ashfiq98/assignment-3-nodejs-expressjs.git
+   ```
 2. Navigate into the project folder:
-  * cd assignment-3-nodejs-expressjs
-
+  ```bash
+   cd assignment-3-nodejs-expressjs
+  ```
 3. Install dependencies:
-  * npm install
+  ```bash
+    npm install
+  ```
 4. Start the development server:
-  * npm start
+   ```bash
+   npm start
+   ```
 
 *** The API will be running at http://localhost:3000 ***
 
@@ -70,9 +75,9 @@ Unit tests for the API are implemented using Jest. To run the tests:
 Ensure the project is installed and dependencies are set up as described above.
 
  1. Run the tests:
-
-   * npm test
-
+  ```bash
+    npm test
+  ```
 This will execute all the unit tests in the __test__ folder.
 
 ## Folder Structure
