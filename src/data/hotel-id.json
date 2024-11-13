@@ -1,0 +1,95 @@
+[
+  {
+    "hotelId": "b9e1a815-434f-48dd-b2c0-a43146c54d56",
+    "slug": "city-central-hotel",
+    "images": [
+      "http://localhost:3000/uploads/image-3.jpg",
+      "http://localhost:3000/uploads/image-2.jpg"
+    ],
+    "title": "City Central Hotel",
+    "description": "A contemporary hotel in the downtown area, offering easy access to business districts and entertainment venues.",
+    "guestCount": 3,
+    "bedroomCount": 1,
+    "bathroomCount": 1,
+    "amenities": [
+      "Free Wi-Fi",
+      "Gym",
+      "Breakfast Included",
+      "24/7 Concierge"
+    ],
+    "host": {
+      "name": "Jane Smith",
+      "contact": "+1-555-5678"
+    },
+    "address": "456 River Road, Chicago, IL 60601",
+    "location": "Chicago, IL",
+    "coordinates": {
+      "latitude": 41.8781,
+      "longitude": -87.6298
+    },
+    "rooms": [
+      {
+        "hotelSlug": "city-central-hotel",
+        "roomSlug": "deluxe-city-view",
+        "roomImages": [
+          "http://localhost:3000/uploads/room-image-2.jpeg"
+        ],
+        "roomTitle": "Deluxe Room with City View",
+        "bedroomCount": 1
+      },
+      {
+        "hotelSlug": "city-central-hotel",
+        "roomSlug": "standard-double",
+        "roomImages": [
+          "http://localhost:3000/uploads/room-image-2.jpeg"
+        ],
+        "roomTitle": "Standard Double Room",
+        "bedroomCount": 1
+      }
+    ]
+  },
+  {
+    "hotelId": "590dde73-bc6e-491f-82fb-a3f6ec54e396",
+    "slug": "ocean-breeze-resort",
+    "images": [],
+    "title": "Ocean Breeze Resort",
+    "description": "A relaxing beachfront resort offering stunning ocean views, top-notch amenities, and exceptional service.",
+    "guestCount": 4,
+    "bedroomCount": 2,
+    "bathroomCount": 2,
+    "amenities": [
+      "Free Wi-Fi",
+      "Outdoor Pool",
+      "Spa Services",
+      "Complimentary Breakfast",
+      "Beach Access",
+      "On-site Restaurant"
+    ],
+    "host": {
+      "name": "Michael Lee",
+      "contact": "+1-555-9876"
+    },
+    "address": "123 Seaside Avenue, Miami, FL 33101",
+    "location": "Miami, FL",
+    "coordinates": {
+      "latitude": 25.7617,
+      "longitude": -80.1918
+    },
+    "rooms": [
+      {
+        "hotelSlug": "ocean-breeze-resort",
+        "roomSlug": "oceanfront-suite",
+        "roomImage": [],
+        "roomTitle": "Oceanfront Suite with Balcony",
+        "bedroomCount": 2
+      },
+      {
+        "hotelSlug": "ocean-breeze-resort",
+        "roomSlug": "garden-view-room",
+        "roomImage": [],
+        "roomTitle": "Garden View Room",
+        "bedroomCount": 1
+      }
+    ]
+  }
+]

@@ -74,7 +74,7 @@ import fs from 'fs-extra';
 import path from 'path';
 
 export const dataPath = path.join(__dirname, '../data');
-export const filePath = path.join(dataPath, 'hotels.json');
+export const filePath = path.join(dataPath, 'hotel-id.json');
 
 // post hotel
 export const addHotelToData = async (newHotel: any): Promise<any> => {
@@ -109,25 +109,11 @@ export const saveHotels = async (hotels: any[]): Promise<void> => {
 };
 
 // image adding 
-
-// const dataPath = path.join(__dirname, '../data');
-// const filePath = path.join(dataPath, 'hotels.json');
 const uploadDirectory = path.join(__dirname, '../uploads');
 
 // Ensure the uploads directory exists
 fs.ensureDirSync(uploadDirectory);
 
-// export const getHotels = async (): Promise<any[]> => {
-//   if (await fs.pathExists(filePath)) {
-//     const fileContent = await fs.readFile(filePath, 'utf-8');
-//     return JSON.parse(fileContent);
-//   }
-//   return [];
-// };
-
-// export const saveHotels = async (hotels: any[]): Promise<void> => {
-//   await fs.writeFile(filePath, JSON.stringify(hotels, null, 2));
-// };
 
 export const getHotelById = async (hotelId: string) => {
   const hotels = await getHotels();
@@ -157,24 +143,6 @@ export interface Hotel {
 
 // get info
 
-// export const getHotelById = async (hotelId: string) => {
-//   try {
-//     const hotelsData = await fs.readJson(filePath);  // Read hotels data from JSON file
-//     return hotelsData.find((h: any) => h.hotelId === hotelId || h.slug === hotelId);  // Find hotel by ID or slug
-//   } catch (error) {
-//     throw new Error('Error reading hotel data');
-//   }
-// };
-
-// put info
-
-// const filePath = path.join(__dirname, 'data', 'hotels.json');  // Path to your hotels data file
-
-// Function to get hotel by ID
-// export const getHotelById = async (hotelId: string) => {
-//   const hotelsData = await fs.readJson(filePath);  // Read hotels data from JSON file
-//   return hotelsData.find((h: any) => h.hotelId === hotelId || h.slug === hotelId);  // Find hotel by ID or slug
-// };
 
 // Function to update hotel data by ID
 export const updateHotelById = async (hotelId: string, updatedHotelData: any) => {

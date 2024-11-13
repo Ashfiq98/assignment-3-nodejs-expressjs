@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid'; // Import uuid
 import { addHotelToData, filePath, getHotelById, Hotel, updateHotelById, updateHotelImages } from '../models/hotelModel';
 
 // Controller to add a new hotel
+
 export const validateAddHotel: RequestHandler[] = [
   // Validate title field
   body('title')
@@ -19,12 +20,17 @@ export const validateAddHotel: RequestHandler[] = [
 
   // Optionally validate other fields, like location or rating
   body('location')
-    .optional()
+    .notEmpty().withMessage('Location is required')
     .isString().withMessage('Location must be a string'),
 
-  body('rating')
-    .optional()
-    .isFloat({ min: 0, max: 5 }).withMessage('Rating must be a number between 0 and 5'),
+
+    body('coordinates')
+    .notEmpty().withMessage('Coordinates required'),
+    body('rooms')
+    .notEmpty().withMessage('Rooms information is required'),
+    body('roomSlug')
+    .notEmpty().withMessage('Room slug is required'),
+
 
   // Handle validation errors
   (req: Request, res: Response, next: NextFunction): void => {
@@ -63,7 +69,7 @@ export const addHotel = async (req: Request, res: Response): Promise<void> => {
     // Send a success response with the saved hotel data
     res.status(201).send({
       message: 'Hotel added successfully',
-      hotel: savedHotel,  // Return the saved hotel object
+       // Return the saved hotel object
     });
   } catch (error: any) {
     console.error(error);
@@ -131,7 +137,7 @@ export const validateUploadRoomImages: RequestHandler[] = [
   body('hotelId').notEmpty().withMessage('Hotel ID is required'),
 
   // Validate roomSlug
-  body('roomSlug').notEmpty().withMessage('Room Slug is required'),
+  body('roomSlug').notEmpty().withMessage('room-slug is required'),
 
   // Check if files are uploaded (multer will handle this, but let's validate it)
   (req: Request, res: Response, next: NextFunction): void => {
@@ -195,7 +201,7 @@ export const uploadRoomImages = async (req: Request, res: Response): Promise<voi
       room.roomImages?.push(`http://localhost:${process.env.PORT || 3000}${imageUrl}`);
     });
 
-    // Save the updated hotel data back to the hotels JSON file
+    // Save the updated hotel data back to the hotel-id JSON file
     await fs.writeJson(filePath, hotelsData, { spaces: 2 });
 
     res.status(201).send({
@@ -248,7 +254,7 @@ export const getHotel = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-// put detail
+// put hotel details
 
 export const updateHotel = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -259,6 +265,9 @@ export const updateHotel = async (req: Request, res: Response): Promise<void> =>
     if (!updatedHotelData.title || !updatedHotelData.description) {
       res.status(400).send('Title and description are required');
       return;
+    }
+    if (updatedHotelData.title) {
+      updatedHotelData.slug = slugify(updatedHotelData.title, { lower: true });
     }
 
     // Call the model function to update the hotel data
