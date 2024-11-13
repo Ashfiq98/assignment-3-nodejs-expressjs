@@ -1,74 +1,3 @@
-// import { v4 as uuidv4 } from 'uuid';
-
-// interface Location {
-//   latitude: number;
-//   longitude: number;
-// }
-
-// interface Host {
-//   name: string;
-//   contact: string;
-// }
-
-// interface Room {
-//   hotelSlug: string;
-//   roomSlug: string;
-//   roomImage: string;
-//   roomTitle: string;
-//   bedroomCount: number;
-//   roomImages?: string[];
-// }
-
-// interface Hotel {
-//   hotelId: string; // UUID as numeric string
-//   slug: string;
-//   images: string[];
-//   title: string;
-//   description: string;
-//   guestCount: number;
-//   bedroomCount: number;
-//   bathroomCount: number;
-//   amenities: string[];
-//   host: Host;
-//   address: string;
-//   location: Location;
-//   rooms: Room[];
-// }
-
-// const createHotel = ({
-//   title,
-//   slug,
-//   description,
-//   guestCount,
-//   bedroomCount,
-//   bathroomCount,
-//   amenities,
-//   host,
-//   address,
-//   location,
-//   rooms,
-//   images
-// }: Partial<Omit<Hotel, 'hotelId'>>): Hotel => {
-//   return {
-//     hotelId: uuidv4().replace(/\D/g, '').slice(0, 10), // Generate a UUID with only numbers
-//     slug,
-//     title,
-//     description,
-//     guestCount,
-//     bedroomCount,
-//     bathroomCount,
-//     amenities,
-//     host,
-//     address,
-//     location,
-//     rooms,
-//     images
-//   } as Hotel;
-// };
-
-// export { Hotel, Room, Host, Location, createHotel };
-
-
 // models/hotelModel.ts
 import fs from 'fs-extra';
 import path from 'path';
@@ -76,7 +5,7 @@ import path from 'path';
 export const dataPath = path.join(__dirname, '../data');
 export const filePath = path.join(dataPath, 'hotel-id.json');
 
-// post hotel
+// POST hotel's information
 export const addHotelToData = async (newHotel: any): Promise<any> => {
   try {
     const hotelsData = await fs.readJson(filePath);  // Read existing hotel data from JSON file
@@ -92,23 +21,14 @@ export const addHotelToData = async (newHotel: any): Promise<any> => {
     throw new Error('Error adding hotel data');
   }
 };
-
-//
-
-export const getHotels = async (): Promise<any[]> => {
-  if (await fs.pathExists(filePath)) {
-    const fileContent = await fs.readFile(filePath, 'utf-8');
-    return JSON.parse(fileContent);
-  }
-  return [];
-};
-
 export const saveHotels = async (hotels: any[]): Promise<void> => {
   await fs.ensureDir(dataPath);
   await fs.writeFile(filePath, JSON.stringify(hotels, null, 2));
 };
 
-// image adding 
+
+
+// POST image  
 const uploadDirectory = path.join(__dirname, '../uploads');
 
 // Ensure the uploads directory exists
@@ -129,7 +49,8 @@ export const updateHotelImages = async (hotelId: string, imageUrls: string[]) =>
   }
 };
 
-// room image
+
+// POST room-image
 export interface Room {
   roomSlug: string;
   roomImages?: string[];
@@ -141,10 +62,19 @@ export interface Hotel {
 }
 
 
-// get info
+// GET Hotel Information
+export const getHotels = async (): Promise<any[]> => {
+  if (await fs.pathExists(filePath)) {
+    const fileContent = await fs.readFile(filePath, 'utf-8');
+    return JSON.parse(fileContent);
+  }
+  return [];
+};
 
 
-// Function to update hotel data by ID
+
+// PUT Hotel Information
+
 export const updateHotelById = async (hotelId: string, updatedHotelData: any) => {
   try {
     const hotelsData = await fs.readJson(filePath);  // Read hotels data from JSON file

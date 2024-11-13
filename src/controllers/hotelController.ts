@@ -13,17 +13,14 @@ export const validateAddHotel: RequestHandler[] = [
     .notEmpty().withMessage('Title is required')
     .isString().withMessage('Title must be a string'),
 
-  // Validate description field
+  // Validate  field
   body('description')
     .notEmpty().withMessage('Description is required')
     .isString().withMessage('Description must be a string'),
 
-  // Optionally validate other fields, like location or rating
   body('location')
     .notEmpty().withMessage('Location is required')
     .isString().withMessage('Location must be a string'),
-
-
     body('coordinates')
     .notEmpty().withMessage('Coordinates required'),
     body('rooms')
@@ -77,9 +74,8 @@ export const addHotel = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-// adding image with validation
 
-
+// Controller of POST image 
 
 export const validateUploadHotelImages = [
   body('hotelId')
@@ -128,16 +124,16 @@ export const uploadHotelImages = async (req: Request, res: Response): Promise<vo
 // without validation
 // https://ideone.com/7guSgp
 
-// room image
 
+// Controller of POST room-image
 
 // Validation middleware for uploadRoomImages
 export const validateUploadRoomImages: RequestHandler[] = [
   // Validate hotelId
-  body('hotelId').notEmpty().withMessage('Hotel ID is required'),
+  body('hotelId').notEmpty().withMessage('Hotel ID is required [key=hotelId]'),
 
   // Validate roomSlug
-  body('roomSlug').notEmpty().withMessage('room-slug is required'),
+  body('roomSlug').notEmpty().withMessage('roomSlug is required [key=roomSlug]'),
 
   // Check if files are uploaded (multer will handle this, but let's validate it)
   (req: Request, res: Response, next: NextFunction): void => {
@@ -215,7 +211,7 @@ export const uploadRoomImages = async (req: Request, res: Response): Promise<voi
 };
 
 
-// get hotel detail
+// Controller for GET(Fetch) hotel details
 
 export const getHotel = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -254,7 +250,7 @@ export const getHotel = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-// put hotel details
+// Controller for PUT(Update) hotel's information
 
 export const updateHotel = async (req: Request, res: Response): Promise<void> => {
   try {

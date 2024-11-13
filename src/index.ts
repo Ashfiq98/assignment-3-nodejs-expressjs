@@ -5,7 +5,7 @@ import path from 'path'; // For file path
 import hotelRoutes from './routes/hotelRoutes';
 
 
-const app = express();
+export const app = express();
 const PORT = 3000;
 
 
