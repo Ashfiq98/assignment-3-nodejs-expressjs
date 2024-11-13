@@ -82,8 +82,20 @@ This will execute all the unit tests in the __test__ folder.
 
 ## Folder Structure
 
-assignment-3-nodejs-expressjs ├── data │ ├── hotel-id.json # Hotel data stored here │ └── ... # Additional data files ├── uploads # Folder where uploaded images are stored ├── test # Folder containing unit tests ├── src │ ├── controllers # API controllers (handle the logic) │ ├── models # Data models │ ├── routes # API route handlers │ └── index.ts # Main entry point of the application ├── jest.config.ts # Jest configuration file ├── package.json # Project metadata and dependencies └── README.md # Project documentation
-
+- **assignment-3-nodejs-expressjs/**
+  - **data/**
+    - `hotel-id.json`: Hotel data stored here
+    - `...`: Additional data files
+  - **uploads/**: Folder where uploaded images are stored
+  - **__test__/**: Folder containing unit tests
+  - **src/**
+    - **controllers/**: API controllers (handle the logic)
+    - **models/**: Data models
+    - **routes/**: API route handlers
+    - `index.ts`: Main entry point of the application
+  - `jest.config.ts`: Jest configuration file
+  - `package.json`: Project metadata and dependencies
+  - `README.md`: Project documentation
 ## Contributing
 Feel free to fork the repository, open an issue, or submit a pull request for improvements or fixes.
 
