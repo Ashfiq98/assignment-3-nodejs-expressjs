@@ -1,4 +1,4 @@
-# Node.js, Express.js, TypeScript Assignment
+# Node.js, Express.js, TypeScript
 
 This project is a backend API developed using Node.js, Express.js, and TypeScript. It follows the MVC (Model-View-Controller) architecture to separate concerns, making the codebase modular and maintainable. The API allows users to manage hotel details and interact with hotel data stored in a JSON file. Several endpoints are included for CRUD operations and image uploads. Unit tests verify the functionality of each endpoint.
 
